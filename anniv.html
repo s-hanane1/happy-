@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Anniversary</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+        :root {
+            --bg-color: #e2ebf0; 
+            --envelope-main: #ff4d6d; 
+            --envelope-dark: #c9184a; 
+            --envelope-pocket: #ff758f; 
+            --seal-red: #d62828; 
+            --paper-white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e2ebf0 0%, #cfd9df 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- تأثير القلوب المتساقطة في الخلفية --- */
+        .heart-particle {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.4);
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+            bottom: -20px;
+            z-index: 0;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-105vh) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* العداد الفوقاني */
+        .counter-container {
+            text-align: center;
+            margin-bottom: 50px;
+            z-index: 1;
+        }
+        .counter-title {
+            font-family: 'Dancing Script', cursive;
+            color: var(--envelope-dark);
+            font-size: 3rem;
+            margin: 0 0 10px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        .counter-days {
+            color: #2b2d42;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 25px;
+            border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- الظرف الرئيسي --- */
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
+            perspective: 1000px;
+            z-index: 1;
+        }
+
+        .envelope-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--envelope-main);
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        /* غطاء الظرف الفوقاني */
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 125px solid var(--envelope-dark);
+            transform-origin: top;
+            transition: transform 0.5s ease-in-out, z-index 0.5s;
+            z-index: 3;
+        }
+
+        /* الجيب الأمامي */
+        .pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid var(--envelope-pocket);
+            border-right: 160px solid var(--envelope-pocket);
+            border-bottom: 110px solid var(--envelope-main);
+            border-top: 110px solid transparent;
+            border-radius: 0 0 8px 8px;
+            z-index: 2;
+        }
+
+        /* --- الرسالة الورقية الدخلانية --- */
+        .letter {
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+            width: 290px;
+            height: 200px;
+            background-color: var(--paper-white);
+            border-radius: 4px;
+            padding: 15px 20px;
+            box-sizing: border-box;
+            transition: transform 0.6s ease-in-out, z-index 0.6s;
+            z-index: 1; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .text {
+            color: #333;
+            text-align: center;
+        }
+
+        .text h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            margin: 0 0 8px 0;
+            color: var(--envelope-dark);
+        }
+
+        /* نص الرسالة الخاص بالبنت (23 سنة) */
+        .text p {
+            font-size: 0.8rem;
+            line-height: 1.45;
+            margin: 0;
+            color: #444;
+            font-style: italic;
+        }
+
+        /* ختم القلب الأحمر النابض */
+        .seal {
+            position: absolute;
+            top: 110px;
+            left: 145px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--seal-red);
+            z-index: 4;
+            transform: rotate(-45deg);
+            transition: transform 0.5s ease-in-out, opacity 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            animation: heartbeat 1.4s infinite ease-in-out;
+        }
+        .seal::before, .seal::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: var(--seal-red);
+            border-radius: 50%;
+        }
+        .seal::before { top: -15px; left: 0; }
+        .seal::after { top: 0; left: 15px; }
+
+        @keyframes heartbeat {
+            0% { transform: rotate(-45deg) scale(1); }
+            25% { transform: rotate(-45deg) scale(1.1); }
+            40% { transform: rotate(-45deg) scale(1); }
+            60% { transform: rotate(-45deg) scale(1.15); }
+            100% { transform: rotate(-45deg) scale(1); }
+        }
+
+        /* --- أنيميشن الفتح عند الكليك --- */
+        .envelope-container.open .flap {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-container.open .letter {
+            transform: translateY(-140px);
+            z-index: 4;
+        }
+
+        .envelope-container.open .seal {
+            opacity: 0;
+            animation: none;
+            transform: translateY(-30px) rotate(-45deg) scale(0);
+        }
+
+        .instruction {
+            color: var(--envelope-dark);
+            font-weight: 600;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="counter-container">
+        <div class="counter-title">Happy Anniversary</div>
+        <div id="counter" class="counter-days">Loading our days...</div>
+    </div>
+
+    <div class="envelope-container">
+        <div class="envelope-wrapper">
+            <div class="flap"></div>
+            
+            <div class="letter">
+                <div class="text">
+                    <h2>Happy Anniversary</h2>
+                    <p>"To the most beautiful soul. At 23, your grace and love amaze me every day. Thank you for being my calm, my favorite person, and my home. Cheers to us growing happier together."</p>
+                    <p style="font-weight: 600; margin-top: 8px; font-size: 0.75rem; color: var(--envelope-dark);">Forever Yours</p>
+                </div>
+            </div>
+            
+            <div class="pocket"></div>
+            <div class="seal"></div>
+        </div>
+    </div>
+
+    <div class="instruction">Tap / Click to Open</div>
+
+    <script>
+        // 1. تفعيل الفتح والإغلاق بالكليك
+        const envelopeContainer = document.querySelector('.envelope-container');
+        envelopeContainer.addEventListener('click', () => {
+            envelopeContainer.classList.toggle('open');
+        });
+
+        // 2. عداد الوقت (بدل التاريخ هنا للنهار الحقيقي ديالكم)
+        const startDate = new Date(2023, 4, 15); 
+
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+
+            document.getElementById('counter').innerHTML = 
+                `${days} Days • ${String(hours).padStart(2, '0')} Hours • ${String(minutes).padStart(2, '0')} Minutes`;
+        }
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        // 3. تأثير القلوب الطائرة ف الخلفية
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-particle');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; 
+            heart.style.fontSize = Math.random() * 15 + 10 + 'px'; 
+            
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+
+</body>
+</html>
+dir liya chi haja bhal heka tkuun mkhtalfa
